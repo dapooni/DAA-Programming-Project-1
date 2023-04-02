@@ -1,30 +1,72 @@
 #include<stdio.h>
+#include <stdlib.h>
 
-void mergesort(int a[],int start,int end);
+void mergeSort(int a[],int start,int end);
 void merge(int a[],int start,int mid,int end);
+void insertionSort(int a[], int N);
+void print(int a[], int size);
+
 int main(){
-    int nos[50],N,i;
+    int nos[50],N,i, choice=0;
 
     printf("Enter no of elements:");
     scanf("%d",&N);
     printf("Enter array elements:");
     for(i=0;i<N;i++)
         scanf("%d",&nos[i]);
+    
+    while(choice!=3){
+        printf("\n1. Merge Sort.\n");
+        printf("2. Insertion Sort.\n");
+        printf("3. Exit.\n");
         
-    mergesort(nos,0,N-1);
+        printf("Select a sorting method: ");
+        scanf("%d", &choice);
 
-    printf("\nSorted array is :");
-    for(i=0;i<N;i++)
-        printf("%d ",nos[i]);
+        switch(choice){
+            case 1: 
+                mergeSort(nos,0,N-1); 
+                print(nos,N);
+                break;
+            case 2:
+                insertionSort(nos, N); 
+                print(nos,N);
+                break;
+            case 3: 
+                exit(0); 
+                break;
+        }
+    }
 
     return 0;
 }
 
-void mergesort(int a[],int start,int end){
+void print(int a[], int size){
+    printf("\nSorted array is: \n");
+    for(int i=0;i<size;i++)
+        printf("%d ",a[i]);
+}
+
+void insertionSort(int a[], int size){
+    int i, prev, current;
+
+    for(i=1; i<size; i++){
+        current = a[i];                             //comparison starts with second element
+        prev = i - 1;                               
+
+        while(prev>=0 && a[prev]>current){          //check if current is less than the previous element
+            a[prev+1] = a[prev];                    //shift right
+            prev--;
+        }
+        a[prev+1] = current;                        //retain element at the same index
+    }
+}
+
+void mergeSort(int a[],int start,int end){
     if(start<end){                                  //base case
         int mid=start+(end-start)/2;
-        mergesort(a,start,mid);                     //left recursion
-        mergesort(a,mid+1,end);                     //right recursion
+        mergeSort(a,start,mid);                     //left recursion
+        mergeSort(a,mid+1,end);                     //right recursion
         merge(a,start,mid,end);                     //merging two sorted sub-arrays
     }
 }
