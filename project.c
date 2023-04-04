@@ -2,7 +2,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-void selection_sort(unsigned long int arr[], int size){
+void selectionSort(unsigned long int arr[], int size){
 	int temp, minValue, x , y;
 	
 	for(x = 0; x < size - 1; x++){
@@ -25,7 +25,7 @@ int main(){
 	int size = sizeof(arr)/sizeof(arr[0]);
 	int ctr;
 	
-	selection_sort(arr, size);
+	selectionSort(arr, size);
 	
 	printf("\nArray after sorting :\n");
 	for(ctr = 0; ctr < size; ctr++){
