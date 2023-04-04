@@ -5,7 +5,7 @@
 
 void mergesort(unsigned long int a[],int,int,int);
 void merge(unsigned long int a[],int, int,int,int);
-void bubbleSort(unsignedlong int a[], int size);
+void bubbleSort(unsigned long int a[], int size);
 void insertionSort(unsigned long int a[], int);
 void quickSort(unsigned long int a[],int,int);
 void print(unsigned long int a[], int, FILE* );
