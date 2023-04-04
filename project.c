@@ -5,6 +5,7 @@
 
 void mergesort(unsigned long int a[],int,int,int);
 void merge(unsigned long int a[],int, int,int,int);
+void bubbleSort(unsignedlong int a[], int size);
 void insertionSort(unsigned long int a[], int);
 void quickSort(unsigned long int a[],int,int);
 void print(unsigned long int a[], int, FILE* );
@@ -109,6 +110,21 @@ void print(unsigned long int a[], int size, FILE *file){
     }
     printf("\n");
 }
+
+void bubbleSort(unsigned long int a[], int size)
+{
+    for(i = 1; i < size; ++i) 
+	{
+		for(j = 0; j < (size-i); ++j) 
+		{
+			if(a[j] > a[j+1]) 
+			{
+				temp = a[j];
+				a[j] = a[j+1];
+				a[j+1] = temp;
+			}
+		}
+	}
 
 void insertionSort(unsigned long int a[], int size){ 
     int i, prev, current;
