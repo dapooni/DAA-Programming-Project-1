@@ -113,12 +113,9 @@ void print(unsigned long int a[], int size, FILE *file){
 
 void bubbleSort(unsigned long int a[], int size)
 {
-    for(i = 1; i < size; ++i) 
-	{
-		for(j = 0; j < (size-i); ++j) 
-		{
-			if(a[j] > a[j+1]) 
-			{
+    for(i = 1; i < size; ++i) {
+	for(j = 0; j < (size-i); ++j) {
+			if(a[j] > a[j+1]) {
 				temp = a[j];
 				a[j] = a[j+1];
 				a[j+1] = temp;
