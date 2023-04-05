@@ -5,18 +5,18 @@
 
 void randomized(int);
 void generated(int, int);
-void bubbleSort(int[], int);
-void selectionSort(int[], int);
-void insertionSort(int[], int);
-void mergeSort(int[], int, int, int);
-void merge(int[], int, int, int, int);
-void quickSort(int[], int, int);
-void heapSort(int*, int);
-void heapify(int*, int, int);
-void print(int[], int, FILE*);
-void sort(int[], int, FILE*);
+void bubbleSort(unsigned long int arr[], int);
+void selectionSort(unsigned long int arr[], int);
+void insertionSort(unsigned long int arr[], int);
+void mergeSort(unsigned long int arr[], int, unsigned long int start, unsigned long int end);
+void merge(unsigned long int arr[], int, unsigned long int start, unsigned long int mid, unsigned long int end);
+void quickSort(unsigned long int arr[], int, int);
+void heapSort(unsigned long int*, int);
+void heapify(unsigned long int*, int, int);
+void print(unsigned long int arr[], int, FILE*);
+void sort(unsigned long int arr[], int, FILE*);
 
-void copy_array(int dest[], int src[], int n) {
+void copy_array(unsigned long int dest[], unsigned long int src[], int n) {
     memcpy(dest, src, n * sizeof(int));
 }
 
@@ -72,7 +72,8 @@ int main(){
 void randomized(int n){
 	
 	
-	int i, j, arr[n], temp;
+	int i, j, temp;
+	unsigned long int arr[n];
 	
 	FILE *output = fopen("out.txt", "w"); //opens output file for writing
 	
@@ -93,7 +94,8 @@ void randomized(int n){
 
 void generated(int n, int x){
 	
-	int i, j, arr[n], temp;
+	int i, j, temp;
+	unsigned long int arr[n];
 	
 	FILE *output = fopen("out.txt", "a"); //opens output file for writing
 	
@@ -110,9 +112,9 @@ void generated(int n, int x){
 	fclose(output); //closes file
 }
 
-void sort(int arr[], int n, FILE* output){
+void sort(unsigned long int arr[], int n, FILE* output){
 	
-	int sorted_arr[n];
+	unsigned long int sorted_arr[n];
 	
 	copy_array(sorted_arr, arr, n);
 	fprintf(output,"\n\nSelection Sort");
@@ -170,7 +172,7 @@ void sort(int arr[], int n, FILE* output){
 
 }
 
-void print(int arr[], int N, FILE *output){
+void print(unsigned long int arr[], int N, FILE *output){
 	int i;
 	fprintf(output, "\n\tSorted: ");
 	for(i=0; i<N; i++)
@@ -179,7 +181,7 @@ void print(int arr[], int N, FILE *output){
 	}
 }
 
-void bubbleSort(int arr[], int n){
+void bubbleSort(unsigned long int arr[], int n){
 	int i, j, temp;
 	for(i = 1; i < n; ++i) 
 	{
@@ -195,7 +197,7 @@ void bubbleSort(int arr[], int n){
 	}
 }
 
-void selectionSort(int arr[], int n) {
+void selectionSort(unsigned long int arr[], int n) {
     int i, j, min_idx, temp;
     for (i = 0; i < n - 1; i++) {
         min_idx = i;
@@ -213,7 +215,7 @@ void selectionSort(int arr[], int n) {
 }
 
 
-void insertionSort(int arr[], int n){ 
+void insertionSort(unsigned long int arr[], int n){ 
     int i, prev, current;
 
     for(i=1; i<n; i++){
@@ -229,18 +231,18 @@ void insertionSort(int arr[], int n){
 }
 
 
-void mergeSort(int arr[],int n, int start,int end){
+void mergeSort(unsigned long int arr[],int n, unsigned long int start, unsigned long int end){
     if(start<end){                                         //base case
-        int mid=start+(end-start)/2;
+        unsigned long int mid=start+(end-start)/2;
         mergeSort(arr, n, start,mid);                     //left recursion
         mergeSort(arr, n, mid+1,end);                     //right recursion
         merge(arr, n, start,mid,end);                     //merging two sorted sub-arrays
     }
 }
 
-void merge(int arr[], int n, int start,int mid,int end){
+void merge(unsigned long int arr[], int n, unsigned long int start, unsigned long int mid, unsigned long int end){
     unsigned long int *temp = malloc(n * sizeof(unsigned long int));                  //temporary storage for sorted elements
-    int l,r,k;
+    unsigned long int l,r,k;
     l=start;                                        //beginning index of the first sub-array
     r=mid+1;                                        //beginning index of the second sub-array
     k=0;
@@ -261,7 +263,7 @@ void merge(int arr[], int n, int start,int mid,int end){
         arr[l]=temp[r];
 } 
 
-void quickSort(int arr[],int first,int last){
+void quickSort(unsigned long int arr[],int first,int last){
    int i, j, pivot, temp;
    if(first<last){
       pivot=first;
@@ -286,7 +288,7 @@ void quickSort(int arr[],int first,int last){
    }
 }
 
-void heapSort(int* arr, int n){
+void heapSort(unsigned long int *arr, int n){
 	int i;
     for (i = n / 2 - 1; i >= 0; i--){//build the binary max heap
         heapify(arr, n, i);
@@ -299,7 +301,7 @@ void heapSort(int* arr, int n){
     }
 }
  
-void heapify(int* arr, int n, int i) /* heapify the subtree with root i */{
+void heapify(unsigned long int* arr, int n, int i) /* heapify the subtree with root i */{
     int largest = i; //store largest as the root element
  
     int left = 2 * i + 1;
