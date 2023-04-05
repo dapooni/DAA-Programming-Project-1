@@ -30,12 +30,12 @@ int main(){
 		do	{
 			system("cls"); // This function is used to run system/command prompt commands and here cls is a command to clear the output screen
 			printf("\t\t\t-------------------------------------------------------------------\n");
-			printf("\t\t\t|\t\t\t    SORTING ALGORITHM \t\t\t  |\n");
+			printf("\t\t\t|\t\t\t   SORTING ALGORITHM  \t\t\t  |\n");
 			printf("\t\t\t-------------------------------------------------------------------\n");
 			printf("\t\t\t|\t\t\t\t\t\t\t\t  |\n");
 			printf("\t\t\t|1.) Randomized Values \t\t\t\t\t\t  |\n");
-			printf("\t\t\t|2.) Generate Values\t\t\t\t\t\t  |\n");
-			printf("\t\t\t|3.) End Program.\t\t\t\t\t\t  |\n");
+			printf("\t\t\t|2.) Generated Values\t\t\t\t\t\t  |\n");
+			printf("\t\t\t|3.) End Program \t\t\t\t\t\t  |\n");
 			printf("\t\t\t-------------------------------------------------------------------\n");
 		
 			printf("\nEnter your number choice: ");
@@ -43,42 +43,48 @@ int main(){
 			
 			if(choice==1)
 			{
-				printf("Enter n: ");
+				printf("Enter the number of integers to be sorted: "); 
 				scanf("%d", &n);
 				randomized(n);
+				printf("\n");
 				system("pause");
 				system("cls");
 			}
 			else if (choice==2)
 			{
-				printf("Enter n: ");
+				printf("Enter the number of integers to be sorted: "); 
 				scanf("%d", &n);
-				printf("Enter x: ");
+				printf("Enter a positive number: ");
 				scanf("%d", &x);
 				generated(n, x);
+				printf("\n");
 				system("pause");
 				system("cls");
 			}
 			
 		} while(choice!=3);
 		
-		printf("End of program.");
+		printf("\nProgram Exited Successfully.");
 		
 	return 0;
 }
 
 void randomized(int n){
+	
+	
 	int i, j, arr[n], temp;
+	
 	FILE *output = fopen("out.txt", "w"); //opens output file for writing
 	
 	clock_t start, end; // initialization of start and end clocks
 	double cpu_time_used; // variable for storing actual time (in seconds)
 	
-	fprintf(output, "Original array: ");
+	fprintf(output, "Randomized Values \n\nOriginal array:\n\t ");
 	for(i=0; i<n; i++){
 		arr[i] = rand() % ULONG_MAX; //randomizes number (range is 0 to unsigned long int max) and assigns to array
 		fprintf(output, "%d ", arr[i]);
 	}
+	
 	sort(arr, n, output);
 	fclose(output); //closes file
 }
@@ -86,13 +92,15 @@ void randomized(int n){
 
 
 void generated(int n, int x){
+	
 	int i, j, arr[n], temp;
-	FILE *output = fopen("out.txt", "w"); //opens output file for writing
+	
+	FILE *output = fopen("out.txt", "a"); //opens output file for writing
 	
 	clock_t start, end; // initialization of start and end clocks
 	double cpu_time_used; // variable for storing time taken
 	
-	fprintf(output, "Original array: ");
+	fprintf(output, "\n\n\nGenerated Values \n\nOriginal array:\n\t ");
 	for(i=0; i<n; i++){
 		arr[i] = n + (x*(i+1)); //computes array elements using formula
 		fprintf(output, "%d ", arr[i]);
@@ -103,84 +111,68 @@ void generated(int n, int x){
 }
 
 void sort(int arr[], int n, FILE* output){
+	
 	int sorted_arr[n];
+	
 	copy_array(sorted_arr, arr, n);
-	fprintf(output,"\n\nOriginal Array test:");
-	print(arr, n, output);
-	fprintf(output,"\nSelection Sort");
-	printf("\nSelection Sort");
+	fprintf(output,"\n\nSelection Sort");
 	clock_t selection_start_time = clock(); 
 	selectionSort(sorted_arr, n);
 	clock_t selection_end_time = clock();
 	double selection_time_taken = (double)(selection_end_time - selection_start_time) / CLOCKS_PER_SEC;
-	printf("\nTime taken for selection sort: %f seconds\n", selection_time_taken);
+	printf("\nTime taken for Selection sort: %f Seconds\n", selection_time_taken);
 	print(sorted_arr, n, output);
 	
 	copy_array(sorted_arr, arr, n);
-	fprintf(output,"\n\nOriginal Array test:");
-	print(arr, n, output);
-	fprintf(output,"\nBubble Sort");
-	printf("\nBubble Sort");
+	fprintf(output,"\n\nBubble Sort");
 	clock_t bubble_start_time = clock(); 
 	bubbleSort(sorted_arr, n);
 	clock_t bubble_end_time = clock(); 
 	double bubble_time_taken = (double)(bubble_end_time - bubble_start_time) / CLOCKS_PER_SEC;
-	printf("\nTime taken for bubble sort: %f seconds\n", bubble_time_taken);
+	printf("Time taken for Bubble Sort: %f seconds\n", bubble_time_taken);
 	print(sorted_arr, n, output);
 
 	copy_array(sorted_arr, arr, n);
-	fprintf(output,"\n\nOriginal Array test:");
-	print(arr, n, output);
-	fprintf(output,"\nInsertion Sort");
-	printf("\nInsertion Sort");
+	fprintf(output,"\n\nInsertion Sort");
 	clock_t insertion_start_time = clock(); 
 	insertionSort(sorted_arr, n);
 	clock_t insertion_end_time = clock(); 
 	double insertion_time_taken = (double)(insertion_end_time - insertion_start_time) / CLOCKS_PER_SEC;
-	printf("\nTime taken for insertion sort: %f seconds\n", insertion_time_taken);
+	printf("Time taken for Insertion Sort: %f seconds\n", insertion_time_taken);
 	print(sorted_arr, n, output);
 	
 	copy_array(sorted_arr, arr, n);
-	fprintf(output,"\n\nOriginal Array test:");
-	print(arr, n, output);
-	fprintf(output,"\nMerge Sort");
-	printf("\nMerge Sort");
+	fprintf(output,"\n\nMerge Sort");
 	clock_t merge_start_time = clock(); 
 	mergeSort(sorted_arr, n, 0, n-1);
 	clock_t merge_end_time = clock(); 
 	double merge_time_taken = (double)(merge_end_time - merge_start_time) / CLOCKS_PER_SEC;
-	printf("\nTime taken for merge sort: %f seconds\n", merge_time_taken);
+	printf("Time taken for Merge Sort: %f seconds\n", merge_time_taken);
 	print(sorted_arr, n, output);
 
 	copy_array(sorted_arr, arr, n);
-	fprintf(output,"\n\nOriginal Array test:");
-	print(arr, n, output);
-	fprintf(output,"\nQuick Sort");
-	printf("\nQuick Sort");
+	fprintf(output,"\n\nQuick Sort");
 	clock_t quick_start_time = clock(); 
 	quickSort(sorted_arr,0,n-1);
 	clock_t quick_end_time = clock(); 
 	double quick_time_taken = (double)(quick_end_time - quick_start_time) / CLOCKS_PER_SEC;
-	printf("\nTime taken for insertion sort: %f seconds\n", quick_time_taken);
+	printf("Time taken for Quick Sort: %f seconds\n", quick_time_taken);
 	print(sorted_arr, n, output);
 
 	copy_array(sorted_arr, arr, n);
-	fprintf(output,"\n\nOriginal Array test:");
-	print(arr, n, output);
-	fprintf(output,"\nHeap Sort");
-	printf("\nHeap Sort");
+	fprintf(output,"\n\nHeap Sort");
 	clock_t heap_start_time = clock(); 
 	heapSort(sorted_arr, n);
 	clock_t heap_end_time = clock(); 
 	double heap_time_taken = (double)(heap_end_time - heap_start_time) / CLOCKS_PER_SEC;
-	printf("\nTime taken for insertion sort: %f seconds\n", heap_time_taken);
+	printf("Time taken for Heap Sort: %f seconds\n", heap_time_taken);
 	print(sorted_arr, n, output);
 
 }
 
 void print(int arr[], int N, FILE *output){
 	int i;
-	fprintf(output, "\nSorted: ");
+	fprintf(output, "\n\tSorted: ");
 	for(i=0; i<N; i++)
 	{
 		fprintf(output, "%d ", arr[i]);
@@ -188,7 +180,6 @@ void print(int arr[], int N, FILE *output){
 }
 
 void bubbleSort(int arr[], int n){
-		//bubble sort
 	int i, j, temp;
 	for(i = 1; i < n; ++i) 
 	{
@@ -296,10 +287,11 @@ void quickSort(int arr[],int first,int last){
 }
 
 void heapSort(int* arr, int n){
-    for (int i = n / 2 - 1; i >= 0; i--){//build the binary max heap
+	int i;
+    for (i = n / 2 - 1; i >= 0; i--){//build the binary max heap
         heapify(arr, n, i);
     }
-    for (int i = n - 1; i >= 0; i--){ //sort the max heap
+    for (i = n - 1; i >= 0; i--){ //sort the max heap
         int temp = arr[i]; //swap the root node and the last leaf node
         arr[i] = arr[0];
         arr[0] = temp;
