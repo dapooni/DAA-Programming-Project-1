@@ -1,167 +1,202 @@
-#include<stdio.h>
-#include<time.h>
-#include<stdlib.h>
-#include<conio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
 
-void randomized(unsigned long int a[], unsigned long int temp[], FILE*, int );
-void generated(unsigned long int a[], unsigned long int temp[], FILE*, int, int);
-void sort(unsigned long int a[],unsigned long int temp[], FILE*, int);
-void mergeSort(unsigned long int a[], int, FILE* );
-void mergesorting(unsigned long int b[],int, int, int);
-void merge(unsigned long int a[],int, int,int,int);
-void bubbleSort(unsigned long int a[], int size);
-void insertionSort(unsigned long int a[], int);
-void quickSort(unsigned long int a[],int,int);
-void print(unsigned long int a[], int, FILE* );
-void heapify(unsigned long int*, int, int );
-void heapSort(unsigned long int*, int);
+void randomized(int);
+void generated(int, int);
+void bubbleSort(int[], int);
+void selectionSort(int[], int);
+void insertionSort(int[], int);
+void mergeSort(int[], int n);
+void mergesorting(int[], int, int, int);
+void merge(int[], int, int, int, int);
+void quickSort(int[], int, int);
+void heapSort(int*, int);
+void heapify(int*, int, int);
+void print(int[], int, FILE*);
+void sort(int[], int, FILE*);
 
-/*To do:
-1. Time complexity
-2. Making use of temporary array to sort
-3. Selection Sort Missing
-4. Merge Sort Issue
-*/
-
-
-int compuTime(){
-    clock_t start, end;
-    double cpu_time_used;
-
-    start = clock();
-    /*Do the work*/ //insert the sort algorithm here
-    end = clock();
-        cpu_time_used = ((double)(end-start))/CLOCKS_PER_SEC;
+void copy_array(int dest[], int src[], int n) {
+    memcpy(dest, src, n * sizeof(int));
 }
 
 int main(){
-    int N, x, i, c=0;
-    unsigned long int a[N],temp[N]; 
-
-    FILE *file = fopen("outfile", "w"); 
-
-    while (c!=3){
-        printf("\n1. randomized values\n" 
-            "2. generated values\n"
-            "3. exit\n");
-        printf("\nEnter a number: ");
-        scanf("\n%d", &c);
-        
-        switch(c){
-            case 1:
-                printf("\nEnter the number of integers to be sorted: "); 
-                scanf("%d.", &N);
-                randomized(a, temp, file,N);
-                sort(a,temp,file,N);
-                break; 
-            case 2:
-                printf("\nEnter the number of integers to be sorted: ");
-                scanf("%d.", &N);
-                printf("\nEnter a positive number: ");
-                scanf("%d.", &x);
-                if(x>0){
-                    generated(a, temp, file, N, x);
-                    sort(a, temp,file,N);
-                }else printf("invalid number.");
-                
-                break;
-            case 3:
-                printf("\nProgram Exited Successfully.");
-                fclose(file);
-                return 0;
-            default:
-                printf("Invalid Input\n"); 
-        }
-    }
-    
-    printf("Program Exited Successfully.");
-    return 0;
-    
-    fclose(file);
-    return 0;
+	
+	int choice, n, x;
+	time_t t; //di ko alam explanation basta initialization rin ito
+	
+	srand((unsigned) time(&t)); //resets seed(?) di ko sure sa explanation basta para ito di maulit ang random numbers
+	
+		do	{
+			system("cls"); // This function is used to run system/command prompt commands and here cls is a command to clear the output screen
+			printf("\t\t\t-------------------------------------------------------------------\n");
+			printf("\t\t\t|\t\t\t    SORTING ALGORITHM \t\t\t  |\n");
+			printf("\t\t\t-------------------------------------------------------------------\n");
+			printf("\t\t\t|\t\t\t\t\t\t\t\t  |\n");
+			printf("\t\t\t|1.) Randomized Values \t\t\t\t\t\t  |\n");
+			printf("\t\t\t|2.) Generate Values\t\t\t\t\t\t  |\n");
+			printf("\t\t\t|3.) End Program.\t\t\t\t\t\t  |\n");
+			printf("\t\t\t-------------------------------------------------------------------\n");
+		
+			printf("\nEnter your number choice: ");
+			scanf("%d", &choice); 
+			
+			if(choice==1)
+			{
+				printf("Enter n: ");
+				scanf("%d", &n);
+				randomized(n);
+				system("pause");
+				system("cls");
+			}
+			else if (choice==2)
+			{
+				printf("Enter n: ");
+				scanf("%d", &n);
+				printf("Enter x: ");
+				scanf("%d", &x);
+				generated(n, x);
+				system("pause");
+				system("cls");
+			}
+			
+		} while(choice!=3);
+		
+		printf("End of program.");
+		
+	return 0;
 }
 
-void randomized(unsigned long int orig[], unsigned long int temp[], FILE* file, int N){
-    int i;
-    srand(time(NULL)); /*Intializes random number generator */
-
-    for( i=0;i<N;i++ ) {
-        orig[i]=rand(); /*copy the generated random numbers from 0 to MAXRANGE to the array*/ 
-    }
-    fprintf(file,"\nOriginal Array: ");
-    print(orig, N, file);
-}
-
-void print(unsigned long int array[], int size, FILE *file){
-    int i;
-    for(i=0;i<size;i++){
-        printf("%lu ",array[i]);
-        fprintf(file,"%lu ",array[i]);
-    }
-    printf("\n");
-}
-
-void sort(unsigned long int a[],unsigned long int temp[],FILE* file, int N){
-    printf("\nSorting Algorithms:\n");
-
-    fprintf(file,"\nSelection Sort: ");
-    printf("\nSelection Sort: \n");
-    //selection sort
-    print(temp,N,file);
-
-    fprintf(file,"\nBubble Sort: ");
-    printf("\nBubble Sort: \n");
-    print(a,N,file); //test
-    bubbleSort(temp,N);
-    print(temp,N,file); 
-  
-    fprintf(file,"\nInsertion Sort: ");
-    printf("\nInsertion Sort: \n");
-    print(a,N,file); //test
-    insertionSort(a, N);
-    print(temp,N,file);
-         
-    fprintf(file,"\nMerge Sort: ");
-    printf("\nMerge Sort: \n");
-    print(a,N,file); //test
-    mergeSort(a, N, file); 
-    print(temp,N,file);
- 
-    fprintf(file,"\nQuick Sort: ");
-    printf("\nQuick Sort: \n");
-    print(a,N,file); //test
-    quickSort(temp,0,N-1);
-    print(temp,N,file);
-    
-    fprintf(file,"\nHeap Sort: ");
-    printf("\nHeap Sort: \n");
-    print(a,N,file); //test
-    heapSort(temp, N);
-    print(temp,N,file);   
-}
-
-
-void generated(unsigned long int a[], unsigned long int temp[], FILE* file, int N, int X){
-    int i;
-    for(i=1; i<=N; i++){
-        a[i]=N+(X*i);
-    }
-    
-    fprintf(file,"\nOriginal array is :\n");  
-    for(i=0;i<N;i++){
-        printf("%lu\n",a[i]);
-        fprintf(file,"%lu\n",a[i]);
-    }
+void randomized(int n){
+	int i, j, arr[n], temp;
+	FILE *output = fopen("out.txt", "w"); //opens output file for writing
+	
+	clock_t start, end; // initialization of start and end clocks
+	double cpu_time_used; // variable for storing actual time (in seconds)
+	
+	fprintf(output, "Original array: ");
+	for(i=0; i<n; i++){
+		arr[i] = rand() % ULONG_MAX; //randomizes number (range is 0 to unsigned long int max) and assigns to array
+		fprintf(output, "%d ", arr[i]);
+	}
+	sort(arr, n, output);
+	fclose(output); //closes file
 }
 
 
 
-void bubbleSort(unsigned long int arr[], int size)
-{
-    int i, j, temp;
-    for(i = 1; i < size; ++i) {
-	for(j = 0; j < (size-i); ++j) {
-			if(arr[j] > arr[j+1]) {
+void generated(int n, int x){
+	int i, j, arr[n], temp;
+	FILE *output = fopen("out.txt", "w"); //opens output file for writing
+	
+	clock_t start, end; // initialization of start and end clocks
+	double cpu_time_used; // variable for storing time taken
+	
+	fprintf(output, "Original array: ");
+	for(i=0; i<n; i++){
+		arr[i] = n + (x*(i+1)); //computes array elements using formula
+		fprintf(output, "%d ", arr[i]);
+	}
+	
+	sort(arr, n, output);
+	fclose(output); //closes file
+}
+
+void sort(int arr[], int n, FILE* output){
+	int sorted_arr[n];
+	copy_array(sorted_arr, arr, n);
+	fprintf(output,"\n\nOriginal Array test:");
+	print(arr, n, output);
+	fprintf(output,"\nSelection Sort");
+	printf("\nSelection Sort");
+	clock_t selection_start_time = clock(); 
+	selectionSort(sorted_arr, n);
+	clock_t selection_end_time = clock();
+	double selection_time_taken = (double)(selection_end_time - selection_start_time) / CLOCKS_PER_SEC;
+	printf("\nTime taken for selection sort: %f seconds\n", selection_time_taken);
+	print(sorted_arr, n, output);
+	
+	copy_array(sorted_arr, arr, n);
+	fprintf(output,"\n\nOriginal Array test:");
+	print(arr, n, output);
+	fprintf(output,"\nBubble Sort");
+	printf("\nBubble Sort");
+	clock_t bubble_start_time = clock(); 
+	bubbleSort(sorted_arr, n);
+	clock_t bubble_end_time = clock(); 
+	double bubble_time_taken = (double)(bubble_end_time - bubble_start_time) / CLOCKS_PER_SEC;
+	printf("\nTime taken for bubble sort: %f seconds\n", bubble_time_taken);
+	print(sorted_arr, n, output);
+
+	copy_array(sorted_arr, arr, n);
+	fprintf(output,"\n\nOriginal Array test:");
+	print(arr, n, output);
+	fprintf(output,"\nInsertion Sort");
+	printf("\nInsertion Sort");
+	clock_t insertion_start_time = clock(); 
+	insertionSort(sorted_arr, n);
+	clock_t insertion_end_time = clock(); 
+	double insertion_time_taken = (double)(insertion_end_time - insertion_start_time) / CLOCKS_PER_SEC;
+	printf("\nTime taken for insertion sort: %f seconds\n", insertion_time_taken);
+	print(sorted_arr, n, output);
+	
+	copy_array(sorted_arr, arr, n);
+	fprintf(output,"\n\nOriginal Array test:");
+	print(arr, n, output);
+	fprintf(output,"\nMerge Sort");
+	printf("\nMerge Sort");
+	clock_t merge_start_time = clock(); 
+	mergeSort(sorted_arr, n);
+	clock_t merge_end_time = clock(); 
+	double merge_time_taken = (double)(merge_end_time - merge_start_time) / CLOCKS_PER_SEC;
+	printf("\nTime taken for merge sort: %f seconds\n", merge_time_taken);
+	print(sorted_arr, n, output);
+
+	copy_array(sorted_arr, arr, n);
+	fprintf(output,"\n\nOriginal Array test:");
+	print(arr, n, output);
+	fprintf(output,"\nQuick Sort");
+	printf("\nQuick Sort");
+	clock_t quick_start_time = clock(); 
+	quickSort(sorted_arr,0,n-1);
+	clock_t quick_end_time = clock(); 
+	double quick_time_taken = (double)(quick_end_time - quick_start_time) / CLOCKS_PER_SEC;
+	printf("\nTime taken for insertion sort: %f seconds\n", quick_time_taken);
+	print(sorted_arr, n, output);
+
+	copy_array(sorted_arr, arr, n);
+	fprintf(output,"\n\nOriginal Array test:");
+	print(arr, n, output);
+	fprintf(output,"\nHeap Sort");
+	printf("\nHeap Sort");
+	clock_t heap_start_time = clock(); 
+	heapSort(sorted_arr, n);
+	clock_t heap_end_time = clock(); 
+	double heap_time_taken = (double)(heap_end_time - heap_start_time) / CLOCKS_PER_SEC;
+	printf("\nTime taken for insertion sort: %f seconds\n", heap_time_taken);
+	print(sorted_arr, n, output);
+
+}
+
+void print(int arr[], int N, FILE *output){
+	int i;
+	fprintf(output, "\nSorted: ");
+	for(i=0; i<N; i++)
+	{
+		fprintf(output, "%d ", arr[i]);
+	}
+}
+
+void bubbleSort(int arr[], int n){
+		//bubble sort
+	int i, j, temp;
+	for(i = 1; i < n; ++i) 
+	{
+		for(j = 0; j < (n-i); ++j) 
+		{
+			if(arr[j] > arr[j+1]) 
+			{
 				temp = arr[j];
 				arr[j] = arr[j+1];
 				arr[j+1] = temp;
@@ -170,10 +205,28 @@ void bubbleSort(unsigned long int arr[], int size)
 	}
 }
 
-void insertionSort(unsigned long int arr[], int size){ 
+void selectionSort(int arr[], int n) {
+    int i, j, min_idx, temp;
+    for (i = 0; i < n - 1; i++) {
+        min_idx = i;
+        for (j = i + 1; j < n; j++) {
+            if (arr[j] < arr[min_idx]) {
+                min_idx = j;
+            }
+        }
+        if (min_idx != i) {
+            temp = arr[i];
+            arr[i] = arr[min_idx];
+            arr[min_idx] = temp;
+        }
+    }
+}
+
+
+void insertionSort(int arr[], int n){ 
     int i, prev, current;
 
-    for(i=1; i<size; i++){
+    for(i=1; i<n; i++){
         current = arr[i];                             //comparison starts with second element
         prev = i - 1;                               
 
@@ -185,26 +238,26 @@ void insertionSort(unsigned long int arr[], int size){
     }
 }
 
-void mergeSort(unsigned long int arr[], int size, FILE* file){
-    unsigned long int *b = malloc(size * sizeof(unsigned long int)); 
-    int start = 0, end = size-1;
-    for(int i=0; i<size; i++)
+void mergeSort(int arr[], int n){
+    unsigned long int *b = malloc(n * sizeof(unsigned long int)); 
+    int start = 0, end = n-1;
+    for(int i=0; i<n; i++)
         b[i] = arr[i];
 
-    mergesorting(b, size, start, end); 
+    mergesorting(b, n, start, end); 
 }
 
-void mergesorting(unsigned long int arr[],int size, int start,int end){
+void mergesorting(int arr[],int n, int start,int end){
     if(start<end){                                         //base case
         int mid=start+(end-start)/2;
-        mergesorting(arr, size, start,mid);                     //left recursion
-        mergesorting(arr, size, mid+1,end);                     //right recursion
-        merge(arr, size, start,mid,end);                     //merging two sorted sub-arrays
+        mergesorting(arr, n, start,mid);                     //left recursion
+        mergesorting(arr, n, mid+1,end);                     //right recursion
+        merge(arr, n, start,mid,end);                     //merging two sorted sub-arrays
     }
 }
 
-void merge(unsigned long int arr[], int size, int start,int mid,int end){
-    unsigned long int *temp = malloc(size * sizeof(unsigned long int));                  //temporary storage for sorted elements
+void merge(int arr[], int n, int start,int mid,int end){
+    unsigned long int *temp = malloc(n * sizeof(unsigned long int));                  //temporary storage for sorted elements
     int l,r,k;
     l=start;                                        //beginning index of the first sub-array
     r=mid+1;                                        //beginning index of the second sub-array
@@ -226,7 +279,7 @@ void merge(unsigned long int arr[], int size, int start,int mid,int end){
         arr[l]=temp[r];
 } 
 
-void quickSort(unsigned long int arr[],int first,int last){
+void quickSort(int arr[],int first,int last){
    int i, j, pivot, temp;
    if(first<last){
       pivot=first;
@@ -251,7 +304,7 @@ void quickSort(unsigned long int arr[],int first,int last){
    }
 }
 
-void heapSort(unsigned long int* arr, int n){
+void heapSort(int* arr, int n){
     for (int i = n / 2 - 1; i >= 0; i--){//build the binary max heap
         heapify(arr, n, i);
     }
@@ -263,7 +316,7 @@ void heapSort(unsigned long int* arr, int n){
     }
 }
  
-void heapify(unsigned long int* arr, int n, int i) /* heapify the subtree with root i */{
+void heapify(int* arr, int n, int i) /* heapify the subtree with root i */{
     int largest = i; //store largest as the root element
  
     int left = 2 * i + 1;
@@ -286,3 +339,6 @@ void heapify(unsigned long int* arr, int n, int i) /* heapify the subtree with r
         heapify(arr, n, largest); // again heapify that side of the heap where the root has gone
     }
 }
+
+
+
