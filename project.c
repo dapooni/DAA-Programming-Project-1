@@ -24,6 +24,8 @@ int main(){
 	
 	int choice, n, x;
 	time_t t; //di ko alam explanation basta initialization rin ito
+	FILE *output = fopen("out.txt", "w");
+	
 	
 	srand((unsigned) time(&t)); //resets seed(?) di ko sure sa explanation basta para ito di maulit ang random numbers
 	
@@ -65,6 +67,7 @@ int main(){
 		} while(choice!=3);
 		
 		printf("\nProgram Exited Successfully.");
+		fclose(output);
 		
 	return 0;
 }
@@ -73,14 +76,19 @@ void randomized(int n){
 	
 	
 	int i, j, temp;
-	unsigned long int arr[n];
+	unsigned long int *arr= calloc(n, sizeof(unsigned long int));
+
+	if(arr == NULL){
+		printf("Memory not allocated.");
+		exit(0);
+	}
 	
-	FILE *output = fopen("out.txt", "w"); //opens output file for writing
+	FILE *output = fopen("out.txt", "a"); //opens output file for writing
 	
 	clock_t start, end; // initialization of start and end clocks
 	double cpu_time_used; // variable for storing actual time (in seconds)
 	
-	fprintf(output, "Randomized Values \n\nOriginal array:\n\t ");
+	fprintf(output, "\n\n\nRandomized Values \n\nOriginal array:\n\t ");
 	for(i=0; i<n; i++){
 		arr[i] = rand() % ULONG_MAX; //randomizes number (range is 0 to unsigned long int max) and assigns to array
 		fprintf(output, "%d ", arr[i]);
@@ -88,6 +96,7 @@ void randomized(int n){
 	
 	sort(arr, n, output);
 	fclose(output); //closes file
+	free(arr);
 }
 
 
@@ -95,7 +104,12 @@ void randomized(int n){
 void generated(int n, int x){
 	
 	int i, j, temp;
-	unsigned long int arr[n];
+	unsigned long int *arr= calloc(n, sizeof(unsigned long int));
+
+	if(arr == NULL){
+		printf("Memory not allocated.");
+		exit(0);
+	}
 	
 	FILE *output = fopen("out.txt", "a"); //opens output file for writing
 	
@@ -110,11 +124,17 @@ void generated(int n, int x){
 	
 	sort(arr, n, output);
 	fclose(output); //closes file
+	free(arr);
 }
 
 void sort(unsigned long int arr[], int n, FILE* output){
 	
-	unsigned long int sorted_arr[n];
+	unsigned long int *sorted_arr = calloc(n, sizeof(unsigned long int));
+
+	if(sorted_arr == NULL){
+		printf("Memory not allocated.");
+		exit(0);
+	}
 	
 	copy_array(sorted_arr, arr, n);
 	fprintf(output,"\n\nSelection Sort");
@@ -133,7 +153,7 @@ void sort(unsigned long int arr[], int n, FILE* output){
 	double bubble_time_taken = (double)(bubble_end_time - bubble_start_time) / CLOCKS_PER_SEC;
 	printf("Time taken for Bubble Sort: %f seconds\n", bubble_time_taken);
 	print(sorted_arr, n, output);
-
+	
 	copy_array(sorted_arr, arr, n);
 	fprintf(output,"\n\nInsertion Sort");
 	clock_t insertion_start_time = clock(); 
@@ -160,7 +180,7 @@ void sort(unsigned long int arr[], int n, FILE* output){
 	double quick_time_taken = (double)(quick_end_time - quick_start_time) / CLOCKS_PER_SEC;
 	printf("Time taken for Quick Sort: %f seconds\n", quick_time_taken);
 	print(sorted_arr, n, output);
-
+	
 	copy_array(sorted_arr, arr, n);
 	fprintf(output,"\n\nHeap Sort");
 	clock_t heap_start_time = clock(); 
@@ -169,7 +189,8 @@ void sort(unsigned long int arr[], int n, FILE* output){
 	double heap_time_taken = (double)(heap_end_time - heap_start_time) / CLOCKS_PER_SEC;
 	printf("Time taken for Heap Sort: %f seconds\n", heap_time_taken);
 	print(sorted_arr, n, output);
-
+	
+	free(sorted_arr);
 }
 
 void print(unsigned long int arr[], int N, FILE *output){
@@ -224,7 +245,7 @@ void insertionSort(unsigned long int arr[], int n){
 
         while(prev>=0 && arr[prev]>current){          //check if current is less than the previous element
             arr[prev+1] = arr[prev];                    //shift right
-            prev--;
+            prev = prev-1;
         }
         arr[prev+1] = current;                        //retain element at the same index
     }
@@ -241,7 +262,7 @@ void mergeSort(unsigned long int arr[],int n, unsigned long int start, unsigned 
 }
 
 void merge(unsigned long int arr[], int n, unsigned long int start, unsigned long int mid, unsigned long int end){
-    unsigned long int *temp = malloc(n * sizeof(unsigned long int));                  //temporary storage for sorted elements
+    unsigned long int *temp = calloc(n, sizeof(unsigned long int));                  //temporary storage for sorted elements
     unsigned long int l,r,k;
     l=start;                                        //beginning index of the first sub-array
     r=mid+1;                                        //beginning index of the second sub-array
@@ -261,6 +282,7 @@ void merge(unsigned long int arr[], int n, unsigned long int start, unsigned lon
                           
     for(l=start,r=0;l<=end;l++,r++)                 //Transfer all elements to original array
         arr[l]=temp[r];
+	free(temp);
 } 
 
 void quickSort(unsigned long int arr[],int first,int last){
