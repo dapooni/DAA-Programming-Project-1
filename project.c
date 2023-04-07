@@ -314,11 +314,11 @@ void quickSort(unsigned long int arr[],unsigned long int first, unsigned long in
             arr[i] = arr[j];
             arr[j] = temp;		
         }
-     	//here we are performing the swapping but for greater value in comparison to pivot
+     //here we are performing the swapping but for greater value in comparison to pivot
       temp = arr[pivot];
       arr[pivot] = arr[j];
       arr[j] = temp;
-      quickSort(arr, first, j-1);      		 //recursive quicksort call for left partition
+      quickSort(arr, first, j-1);       //recursive quicksort call for left partition
       quickSort(arr, j+1, last);		//recursive quicksort call for right partition
       
  	 }
