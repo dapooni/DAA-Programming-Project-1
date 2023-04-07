@@ -10,7 +10,7 @@ void selectionSort(unsigned long int arr[], int);
 void insertionSort(unsigned long int arr[], int);
 void mergeSort(unsigned long int arr[], int, unsigned long int start, unsigned long int end);
 void merge(unsigned long int arr[], int, unsigned long int start, unsigned long int mid, unsigned long int end);
-void quickSort(unsigned long int arr[], int, int);
+void quickSort(unsigned long int arr[],unsigned long int first, unsigned long int last);
 void heapSort(unsigned long int*, int);
 void heapify(unsigned long int*, int, int);
 void print(unsigned long int arr[], int, FILE*);
@@ -287,7 +287,7 @@ void merge(unsigned long int arr[], int n, unsigned long int start, unsigned lon
 	free(temp);
 } 
 
-void quickSort(unsigned long int arr[],int first,int last){
+void quickSort(unsigned long int arr[],unsigned long int first, unsigned long int last){
 	
    unsigned long int i, j, pivot, temp;
    
