@@ -10,15 +10,17 @@ void selectionSort(unsigned long int arr[], int);
 void insertionSort(unsigned long int arr[], int);
 void mergeSort(unsigned long int arr[], int, unsigned long int start, unsigned long int end);
 void merge(unsigned long int arr[], int, unsigned long int start, unsigned long int mid, unsigned long int end);
-void quickSort(unsigned long int arr[], unsigned long int first,unsigned long int last);
+void quickSort(unsigned long int arr[], int, int);
 void heapSort(unsigned long int*, int);
 void heapify(unsigned long int*, int, int);
 void print(unsigned long int arr[], int, FILE*);
 void sort(unsigned long int arr[], int, FILE*);
 
+
 void copy_array(unsigned long int dest[], unsigned long int src[], int n) {
     memcpy(dest, src, n * sizeof(int));
 }
+
 
 int main(){
 	
@@ -47,10 +49,10 @@ int main(){
 			{
 				printf("Enter the number of integers to be sorted: "); 
 				scanf("%d", &n);
-				randomized(n);
+				randomized(n);      		//calls the randomized function
 				printf("\n");
-				system("pause");
-				system("cls");
+				system("pause");   			// pause a program and wait for a keyboard input to continue
+				system("cls");   
 			}
 			else if (choice==2)
 			{
@@ -58,10 +60,10 @@ int main(){
 				scanf("%d", &n);
 				printf("Enter a positive number: ");
 				scanf("%d", &x);
-				generated(n, x);
+				generated(n, x);  			//calls the generated function
 				printf("\n");
-				system("pause");
-				system("cls");
+				system("pause");   			// pause a program and wait for a keyboard input to continue
+				system("cls");   
 			}
 			
 		} while(choice!=3);
@@ -83,22 +85,21 @@ void randomized(int n){
 		exit(0);
 	}
 	
-	FILE *output = fopen("out.txt", "a"); //opens output file for writing
+	FILE *output = fopen("out.txt", "a");   	 //opens output file for writing
 	
-	clock_t start, end; // initialization of start and end clocks
-	double cpu_time_used; // variable for storing actual time (in seconds)
+	clock_t start, end; 						// initialization of start and end clocks
+	double cpu_time_used; 						// variable for storing actual time (in seconds)
 	
 	fprintf(output, "\n\n\nRandomized Values \n\nOriginal array:\n\t ");
 	for(i=0; i<n; i++){
-		arr[i] = rand() % ULONG_MAX; //randomizes number (range is 0 to unsigned long int max) and assigns to array
+		arr[i] = rand() % ULONG_MAX; 			//randomizes number (range is 0 to unsigned long int max) and assigns to array
 		fprintf(output, "%d ", arr[i]);
 	}
 	
 	sort(arr, n, output);
-	fclose(output); //closes file
+	fclose(output); 							//closes file
 	free(arr);
 }
-
 
 
 void generated(int n, int x){
@@ -111,19 +112,19 @@ void generated(int n, int x){
 		exit(0);
 	}
 	
-	FILE *output = fopen("out.txt", "a"); //opens output file for writing
+	FILE *output = fopen("out.txt", "a");		 //opens output file for writing
 	
-	clock_t start, end; // initialization of start and end clocks
-	double cpu_time_used; // variable for storing time taken
+	clock_t start, end; 						// initialization of start and end clocks
+	double cpu_time_used; 						// variable for storing time taken
 	
 	fprintf(output, "\n\n\nGenerated Values \n\nOriginal array:\n\t ");
 	for(i=0; i<n; i++){
-		arr[i] = n + (x*(i+1)); //computes array elements using formula
+		arr[i] = n + (x*(i+1)); 				//computes array elements using formula
 		fprintf(output, "%d ", arr[i]);
 	}
 	
 	sort(arr, n, output);
-	fclose(output); //closes file
+	fclose(output); 							//closes file
 	free(arr);
 }
 
@@ -195,7 +196,7 @@ void sort(unsigned long int arr[], int n, FILE* output){
 
 void print(unsigned long int arr[], int N, FILE *output){
 	int i;
-	fprintf(output, "\n\tSorted: ");
+	fprintf(output, "\n\tSorted: "); 
 	for(i=0; i<N; i++)
 	{
 		fprintf(output, "%d ", arr[i]);
@@ -204,11 +205,11 @@ void print(unsigned long int arr[], int N, FILE *output){
 
 void bubbleSort(unsigned long int arr[], int n){
 	int i, j, temp;
-	for(i = 1; i < n; ++i) 
+	for(i = 1; i < n; ++i) 					//here we are iterate through arrays element
 	{
-		for(j = 0; j < (n-i); ++j) 
+		for(j = 0; j < (n-i); ++j)  		//in second for loop we are comparing one by one elements
 		{
-			if(arr[j] > arr[j+1]) 
+			if(arr[j] > arr[j+1]) 			//now we are performing swapping by comparing elements
 			{
 				temp = arr[j];
 				arr[j] = arr[j+1];
@@ -220,16 +221,17 @@ void bubbleSort(unsigned long int arr[], int n){
 
 void selectionSort(unsigned long int arr[], int n) {
     int i, j, min_idx, temp;
-    for (i = 0; i < n - 1; i++) {
-        min_idx = i;
-        for (j = i + 1; j < n; j++) {
-            if (arr[j] < arr[min_idx]) {
-                min_idx = j;
+    
+    for (i = 0; i < n - 1; i++) {  						 // One by one move boundary of unsorted subarray
+        min_idx = i;   									//set current element as minimum
+        for (j = i + 1; j < n; j++) {   			 	// check the element to be minimum 
+            if (arr[j] < arr[min_idx]) {  
+                min_idx = j;    						// assign the second element as min
             }
         }
-        if (min_idx != i) {
+        if (min_idx != i) {  						  //swap the minimum element with the current element
             temp = arr[i];
-            arr[i] = arr[min_idx];
+            arr[i] = arr[min_idx];					 //swap the first location with the minimum value in the array
             arr[min_idx] = temp;
         }
     }
@@ -244,7 +246,7 @@ void insertionSort(unsigned long int arr[], int n){
         prev = i - 1;                               
 
         while(prev>=0 && arr[prev]>current){          //check if current is less than the previous element
-            arr[prev+1] = arr[prev];                    //shift right
+            arr[prev+1] = arr[prev];                 //shift right
             prev = prev-1;
         }
         arr[prev+1] = current;                        //retain element at the same index
@@ -262,7 +264,7 @@ void mergeSort(unsigned long int arr[],int n, unsigned long int start, unsigned 
 }
 
 void merge(unsigned long int arr[], int n, unsigned long int start, unsigned long int mid, unsigned long int end){
-    unsigned long int *temp = calloc(n, sizeof(unsigned long int));                  //temporary storage for sorted elements
+    unsigned long int *temp = calloc(n, sizeof(unsigned long int));      //temporary storage for sorted elements
     unsigned long int l,r,k;
     l=start;                                        //beginning index of the first sub-array
     r=mid+1;                                        //beginning index of the second sub-array
@@ -285,51 +287,65 @@ void merge(unsigned long int arr[], int n, unsigned long int start, unsigned lon
 	free(temp);
 } 
 
-void quickSort(unsigned long int arr[],unsigned long int first,unsigned long int last){
+void quickSort(unsigned long int arr[],int first,int last){
+	
    unsigned long int i, j, pivot, temp;
-   if(first<last){
-      pivot=first;
-      i=first;
-      j=last;
-      while(i<j){
-         while(arr[i]<=arr[pivot]&&i<last)
-         i++;
-         while(arr[j]>arr[pivot])
-         j--;
-         if(i<j){
-            temp=arr[i];
-            arr[i]=arr[j];
-            arr[j]=temp;
-         }
-      }
-      temp=arr[pivot];
-      arr[pivot]=arr[j];
-      arr[j]=temp;
-      quickSort(arr,first,j-1);
-      quickSort(arr,j+1,last);
+   
+   if(first < last)               //here we are checking is starting index is less then the end index 
+   {	
+      pivot = first;
+      i = last;
+      j = first;
+      
+      while(i < j)  
+	  {
+        while(arr[i] <= pivot)
+		{
+            i++;
+        }
+       	while(arr[j] > pivot)
+		{
+        	j--;
+       	}
+       	//now we are comparing our last element with pivot and make them swap (for putting smaller values in left)
+        if(i < j)
+		{
+            temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;		
+        }
+     	//here we are performing the swapping but for greater value in comparison to pivot
+      temp = arr[pivot];
+      arr[pivot] = arr[j];
+      arr[j] = temp;
+      quickSort(arr, first, j-1);      		 //recursive quicksort call for left partition
+      quickSort(arr, j+1, last);		//recursive quicksort call for right partition
+      
+ 	 }
    }
 }
 
 void heapSort(unsigned long int *arr, int n){
 	int i;
-    for (i = n / 2 - 1; i >= 0; i--){//build the binary max heap
+    for (i = n / 2 - 1; i >= 0; i--){ 			//build the binary max heap
         heapify(arr, n, i);
     }
-    for (i = n - 1; i >= 0; i--){ //sort the max heap
-        int temp = arr[i]; //swap the root node and the last leaf node
+    for (i = n - 1; i >= 0; i--){ 				//sort the max heap
+        int temp = arr[i]; 						//swap the root node and the last leaf node
         arr[i] = arr[0];
         arr[0] = temp;
-        heapify(arr, i, 0); //again heapify the max heap from the root 
+        heapify(arr, i, 0); 					//again heapify the max heap from the root 
     }
 }
  
-void heapify(unsigned long int* arr, int n, int i) /* heapify the subtree with root i */{
-    int largest = i; //store largest as the root element
+void heapify(unsigned long int* arr, int n, int i)		 // heapify the subtree with root i
+{
+    int largest = i; 							//store largest as the root element
  
     int left = 2 * i + 1;
     int right  = 2 * i + 2;
  
-    if (left < n && arr[left] > arr[largest]){ //now check whether the right and left right is larger than the root or not
+    if (left < n && arr[left] > arr[largest]){		 //now check whether the right and left right is larger than the root or not
         largest = left; 
     }
  
@@ -337,15 +353,12 @@ void heapify(unsigned long int* arr, int n, int i) /* heapify the subtree with r
         largest = right;
     }
     
-    if (largest != i) // if the root is smaller than the children then swap it with the largest children's value
+    if (largest != i) 					// if the root is smaller than the children then swap it with the largest children's value
     {
         int temp = arr[i];
         arr[i] = arr[largest];
         arr[largest] = temp;
  
-        heapify(arr, n, largest); // again heapify that side of the heap where the root has gone
+        heapify(arr, n, largest); 		// again heapify that side of the heap where the root has gone
     }
 }
-
-
-
