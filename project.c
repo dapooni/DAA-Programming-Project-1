@@ -10,35 +10,27 @@ void selectionSort(unsigned long int arr[], int);
 void insertionSort(unsigned long int arr[], int);
 void mergeSort(unsigned long int arr[], int, unsigned long int start, unsigned long int end);
 void merge(unsigned long int arr[], int, unsigned long int start, unsigned long int mid, unsigned long int end);
-void quickSort(unsigned long int array[], int leftmostIndex, int rightmostIndex);
+void quickSort(unsigned long int array[], int, int);
 void heapSort(unsigned long int*, int);
 void heapify(unsigned long int*, int, int);
 void print(unsigned long int arr[], int, FILE*);
 void sort(unsigned long int arr[], int, FILE*);
-
-
-void copy_array(unsigned long int dest[], unsigned long int src[], int n) {
-    memcpy(dest, src, n * sizeof(int));
-}
-
-// function to swap elements
-void swap(unsigned long int *a, unsigned long int *b) {
-  int t = *a;
-  *a = *b;
-  *b = t;
-}
+int partition(unsigned long int arr[], int, int);
+int median(unsigned long int arr[], int, int);
+void copy_array(unsigned long int dest[], unsigned long int src[], int);
+void swap(unsigned long int *, unsigned long int *);
 
 int main(){
 	
 	int choice, n, x;
-	time_t t; //di ko alam explanation basta initialization rin ito
+	time_t t; //the current time
 	FILE *output = fopen("out.txt", "w");
 	
 	
-	srand((unsigned) time(&t)); //resets seed(?) di ko sure sa explanation basta para ito di maulit ang random numbers
+	srand((unsigned) time(&t)); //resets seed (prevent regeneration of random numbers) 
 	
 		do	{
-			system("cls"); // This function is used to run system/command prompt commands and here cls is a command to clear the output screen
+			system("cls||clear"); //This function is used to run system/command prompt commands and here cls is a command to clear the output screen for both windows and linux
 			printf("\t\t\t-------------------------------------------------------------------\n");
 			printf("\t\t\t|\t\t\t   SORTING ALGORITHM  \t\t\t  |\n");
 			printf("\t\t\t-------------------------------------------------------------------\n");
@@ -59,7 +51,7 @@ int main(){
 					printf("\n\nProcess Time Computation:\n");
 					randomized(n); 				//calls the randomized function
 					printf("\n");
-					system("pause");   			// pause a program and wait for a keyboard input to continue
+					system("pause"); 			//pause a program and wait for a keyboard input to continue
 					break;
 				case 2:
 					printf("Enter the number of integers to be sorted: "); 
@@ -69,10 +61,11 @@ int main(){
 					printf("\n\nProcess Time Computation:\n");
 					generated(n, x);  			//calls the generated function
 					printf("\n");
-					system("pause");   			// pause a program and wait for a keyboard input to continue
+					system("pause");   			//pause a program and wait for a keyboard input to continue
 					break;
 				case 3:
 					printf("\nProgram Exited Successfully.");
+					fclose(output); 			//closes file
 					exit(0);
 					break;
 				default:
@@ -83,27 +76,19 @@ int main(){
 			}
 			
 		} while(choice != 3);
-		  fclose(output); 		//closes file
-		
-	return 0;
 }
 
 
 void randomized(int n){
-	
-	
-	int i, j, temp;
+	int i, j;
 	unsigned long int *arr= calloc(n, sizeof(unsigned long int));
 
-	if(arr == NULL){
+	if(arr == NULL){ //checks if memory is allocated
 		printf("Memory not allocated.");
 		exit(0);
 	}
 	
 	FILE *output = fopen("out.txt", "a");       //opens output file for writing
-	
-	clock_t start, end;             			// initialization of start and end clocks
-	double cpu_time_used;						// variable for storing actual time (in seconds)
 	
 	fprintf(output, "\n\n\nRandomized Values \n\nOriginal array:\n\t ");
 	for(i = 0; i < n; i++){
@@ -127,10 +112,7 @@ void generated(int n, int x){
 		exit(0);
 	}
 	
-	FILE *output = fopen("out.txt", "a");		  //opens output file for writing
-	
-	clock_t start, end; 						 // initialization of start and end clocks
-	double cpu_time_used; 						 // variable for storing time taken
+	FILE *output = fopen("out.txt", "a");		  //opens output file for writing					
 	
 	fprintf(output, "\n\n\nGenerated Values \n\nOriginal array:\n\t ");
 	for(i = 0; i < n; i++){
@@ -154,10 +136,10 @@ void sort(unsigned long int arr[], int n, FILE* output){
 	
 	copy_array(sorted_arr, arr, n);
 	fprintf(output,"\n\nSelection Sort");
-	clock_t selection_start_time = clock(); 
+	clock_t selection_start_time = clock(); //initialization of start clock
 	selectionSort(sorted_arr, n);
-	clock_t selection_end_time = clock();
-	double selection_time_taken = (double)(selection_end_time - selection_start_time) / CLOCKS_PER_SEC;
+	clock_t selection_end_time = clock(); //initialization of end clock
+	double selection_time_taken = (double)(selection_end_time - selection_start_time) / CLOCKS_PER_SEC; //variable for storing time taken
 	printf("\nTime taken for Selection Sort: %f Seconds\n", selection_time_taken);
 	print(sorted_arr, n, output);
 	
@@ -217,6 +199,10 @@ void print(unsigned long int arr[], int N, FILE *output){
 	{
 		fprintf(output, "%d ", arr[i]);
 	}
+}
+
+void copy_array(unsigned long int dest[], unsigned long int src[], int n) {
+    memcpy(dest, src, n * sizeof(int));
 }
 
 void bubbleSort(unsigned long int arr[], int n){
@@ -350,6 +336,13 @@ int partition(unsigned long int arr[], int leftmostIndex, int rightmostIndex){
         swap(&arr[i], &arr[j]);         // swap element at i with element at j
     }
 	
+}
+
+// function to swap elements
+void swap(unsigned long int *a, unsigned long int *b) {
+  int t = *a;
+  *a = *b;
+  *b = t;
 }
 
 
