@@ -50,8 +50,7 @@ int main(){
 					scanf("%d", &n);
 					printf("\n\nProcess Time Computation:\n");
 					randomized(n); 				//calls the randomized function
-					printf("\n");
-					system("pause"); 			//pause a program and wait for a keyboard input to continue
+					
 					break;
 				case 2:
 					printf("Enter the number of integers to be sorted: "); 
@@ -61,7 +60,6 @@ int main(){
 					printf("\n\nProcess Time Computation:\n");
 					generated(n, x);  			//calls the generated function
 					printf("\n");
-					system("pause");   			//pause a program and wait for a keyboard input to continue
 					break;
 				case 3:
 					printf("\nProgram Exited Successfully.");
@@ -69,9 +67,11 @@ int main(){
 					exit(0);
 					break;
 				default:
+					getchar();
 			  		printf("\nInvalid. Please try again.");
 					printf("\n\n");
-					system("pause");   			// pause a program and wait for a keyboard input to continue
+					fflush(stdout);
+					getchar(); 					//buffer  			
 					break;	
 			}
 			
@@ -99,6 +99,8 @@ void randomized(int n){
 	sort(arr, n, output);
 	fclose(output); 						   //closes file
 	free(arr);
+
+    getchar(); //buffer
 }
 
 
@@ -123,6 +125,8 @@ void generated(int n, int x){
 	sort(arr, n, output);
 	fclose(output); 							//closes file
 	free(arr);
+
+	getchar(); //buffer
 }
 
 void sort(unsigned long int arr[], int n, FILE* output){
@@ -140,7 +144,7 @@ void sort(unsigned long int arr[], int n, FILE* output){
 	selectionSort(sorted_arr, n);
 	clock_t selection_end_time = clock(); //initialization of end clock
 	double selection_time_taken = (double)(selection_end_time - selection_start_time) / CLOCKS_PER_SEC; //variable for storing time taken
-	printf("\nTime taken for Selection Sort: %f Seconds\n", selection_time_taken);
+	printf("\nTime taken for Selection Sort: %f seconds\n", selection_time_taken);
 	print(sorted_arr, n, output);
 	
 	copy_array(sorted_arr, arr, n);
@@ -187,7 +191,11 @@ void sort(unsigned long int arr[], int n, FILE* output){
 	double heap_time_taken = (double)(heap_end_time - heap_start_time) / CLOCKS_PER_SEC;
 	printf("Time taken for Heap Sort: %f seconds\n", heap_time_taken);
 	print(sorted_arr, n, output);
-	
+
+	printf("\nPress enter key to continue...");
+    fflush(stdout);
+    getchar();
+
 	free(sorted_arr);
 }
 
