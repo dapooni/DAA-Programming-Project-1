@@ -270,7 +270,7 @@ void insertionSort(unsigned long int arr[], int n){
 void mergeSort(unsigned long int arr[], int n, int start, int end){
 	
     if(start < end){                                         //base case
-        unsigned long int mid = start + (end - start)/2;
+        int mid = start + (end - start)/2;
         mergeSort(arr, n, start, mid);                     //left recursion
         mergeSort(arr, n, mid + 1, end);                     //right recursion
         merge(arr, n, start, mid, end);                     //merging two sorted sub-arrays
@@ -280,7 +280,7 @@ void mergeSort(unsigned long int arr[], int n, int start, int end){
 void merge(unsigned long int arr[], int n, int start, int mid, int end){
 	
     unsigned long int *temp = calloc(n, sizeof(unsigned long int));      //temporary storage for sorted elements
-    unsigned long int l, r, k;
+    int l, r, k;
     l = start;                                        //beginning index of the first sub-array
     r = mid+1;                                        //beginning index of the second sub-array
     k = 0;
