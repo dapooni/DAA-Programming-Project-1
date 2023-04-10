@@ -8,8 +8,8 @@ void generated(int, int);
 void bubbleSort(unsigned long int arr[], int);
 void selectionSort(unsigned long int arr[], int);
 void insertionSort(unsigned long int arr[], int);
-void mergeSort(unsigned long int arr[], int, unsigned long int start, unsigned long int end);
-void merge(unsigned long int arr[], int, unsigned long int start, unsigned long int mid, unsigned long int end);
+void mergeSort(unsigned long int arr[], int, int, int);
+void merge(unsigned long int arr[], int, int, int, int);
 void quickSort(unsigned long int array[], int, int);
 void heapSort(unsigned long int*, int);
 void heapify(unsigned long int*, int, int);
@@ -80,7 +80,7 @@ int main(){
 
 
 void randomized(int n){
-	int i, j;
+	int i;
 	unsigned long int *arr= calloc(n, sizeof(unsigned long int));
 
 	if(arr == NULL){ //checks if memory is allocated
@@ -106,7 +106,7 @@ void randomized(int n){
 
 void generated(int n, int x){
 	
-	int i, j, temp;
+	int i;
 	unsigned long int *arr= calloc(n, sizeof(unsigned long int));
 
 	if(arr == NULL){
@@ -267,7 +267,7 @@ void insertionSort(unsigned long int arr[], int n){
 }
 
 
-void mergeSort(unsigned long int arr[],int n, unsigned long int start, unsigned long int end){
+void mergeSort(unsigned long int arr[], int n, int start, int end){
 	
     if(start < end){                                         //base case
         unsigned long int mid = start + (end - start)/2;
@@ -277,7 +277,7 @@ void mergeSort(unsigned long int arr[],int n, unsigned long int start, unsigned 
     }
 }
 
-void merge(unsigned long int arr[], int n, unsigned long int start, unsigned long int mid, unsigned long int end){
+void merge(unsigned long int arr[], int n, int start, int mid, int end){
 	
     unsigned long int *temp = calloc(n, sizeof(unsigned long int));      //temporary storage for sorted elements
     unsigned long int l, r, k;
