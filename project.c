@@ -10,7 +10,7 @@ void selectionSort(unsigned long int arr[], int);
 void insertionSort(unsigned long int arr[], int);
 void mergeSort(unsigned long int arr[], int, int, int);
 void merge(unsigned long int arr[], int, int, int, int);
-void quickSort(unsigned long int array[], int, int);
+void quickSort(unsigned long int arr[], int, int);
 void heapSort(unsigned long int*, int);
 void heapify(unsigned long int*, int, int);
 void print(unsigned long int arr[], int, FILE*);
@@ -23,14 +23,14 @@ void swap(unsigned long int *, unsigned long int *);
 int main(){
 	
 	int choice, n, x;
-	time_t t; //the current time
+	time_t t;         //the current time
 	FILE *output = fopen("out.txt", "w");
 	
 	
-	srand((unsigned) time(&t)); //resets seed (prevent regeneration of random numbers) 
+	srand((unsigned) time(&t));      //resets seed (prevent regeneration of random numbers) 
 	
 		do	{
-			system("cls||clear"); //This function is used to run system/command prompt commands and here cls is a command to clear the output screen for both windows and linux
+			system("cls||clear");   //This function is used to run system/command prompt commands and here cls is a command to clear the output screen for both windows and linux
 			printf("\t\t\t-------------------------------------------------------------------\n");
 			printf("\t\t\t|\t\t\t   SORTING ALGORITHM  \t\t\t  |\n");
 			printf("\t\t\t-------------------------------------------------------------------\n");
@@ -50,7 +50,6 @@ int main(){
 					scanf("%d", &n);
 					printf("\n\nProcess Time Computation:\n");
 					randomized(n); 				//calls the randomized function
-					
 					break;
 				case 2:
 					printf("Enter the number of integers to be sorted: "); 
@@ -71,7 +70,7 @@ int main(){
 			  		printf("\nInvalid. Please try again.");
 					printf("\n\n");
 					fflush(stdout);
-					getchar(); 					//buffer  			
+					getchar(); 			      //buffer  			
 					break;	
 			}
 			
@@ -88,16 +87,16 @@ void randomized(int n){
 		exit(0);
 	}
 	
-	FILE *output = fopen("out.txt", "a");       //opens output file for writing
+	FILE *output = fopen("out.txt", "a");                        //opens output file for writing
 	
 	fprintf(output, "\n\n\nRandomized Values \n\nOriginal array:\n\t ");
 	for(i = 0; i < n; i++){
-		arr[i] = rand() % ULONG_MAX;		   //randomizes number (range is 0 to unsigned long int max) and assigns to array
+		arr[i] = rand() % ULONG_MAX;		             //randomizes number (range is 0 to unsigned long int max) and assigns to array
 		fprintf(output, "%d ", arr[i]);
 	}
 	
 	sort(arr, n, output);
-	fclose(output); 						   //closes file
+	fclose(output); 				            //closes file
 	free(arr);
 
     getchar(); //buffer
@@ -114,7 +113,7 @@ void generated(int n, int x){
 		exit(0);
 	}
 	
-	FILE *output = fopen("out.txt", "a");		  //opens output file for writing					
+	FILE *output = fopen("out.txt", "a");		                //opens output file for writing					
 	
 	fprintf(output, "\n\n\nGenerated Values \n\nOriginal array:\n\t ");
 	for(i = 0; i < n; i++){
@@ -123,7 +122,7 @@ void generated(int n, int x){
 	}
 	
 	sort(arr, n, output);
-	fclose(output); 							//closes file
+	fclose(output); 					       //closes file
 	free(arr);
 
 	getchar(); //buffer
@@ -140,10 +139,10 @@ void sort(unsigned long int arr[], int n, FILE* output){
 	
 	copy_array(sorted_arr, arr, n);
 	fprintf(output,"\n\nSelection Sort");
-	clock_t selection_start_time = clock(); //initialization of start clock
+	clock_t selection_start_time = clock();          //initialization of start clock
 	selectionSort(sorted_arr, n);
-	clock_t selection_end_time = clock(); //initialization of end clock
-	double selection_time_taken = (double)(selection_end_time - selection_start_time) / CLOCKS_PER_SEC; //variable for storing time taken
+	clock_t selection_end_time = clock();            //initialization of end clock
+	double selection_time_taken = (double)(selection_end_time - selection_start_time) / CLOCKS_PER_SEC;      //variable for storing time taken
 	printf("\nTime taken for Selection Sort: %f seconds\n", selection_time_taken);
 	print(sorted_arr, n, output);
 	
@@ -218,9 +217,9 @@ void bubbleSort(unsigned long int arr[], int n){
 	int i, j, temp;
 	for(i = 1; i < n; ++i) 					//here we are iterate through arrays element
 	{
-		for(j = 0; j < (n - i); ++j)  		//in second for loop we are comparing one by one elements
+		for(j = 0; j < (n - i); ++j)  		       //in second for loop we are comparing one by one elements
 		{
-			if(arr[j] > arr[j+1]) 			//now we are performing swapping by comparing elements
+			if(arr[j] > arr[j+1]) 		      //now we are performing swapping by comparing elements
 			{
 				temp = arr[j];
 				arr[j] = arr[j + 1];
@@ -234,16 +233,16 @@ void selectionSort(unsigned long int arr[], int n) {
 	
     int i, j, min_idx, temp;
     
-    for (i = 0; i < n - 1; i++) {  						 // One by one move boundary of unsorted subarray
-        min_idx = i;   									//set current element as minimum
+    for (i = 0; i < n - 1; i++) {  					 // One by one move boundary of unsorted subarray
+        min_idx = i;   						        //set current element as minimum
         for (j = i + 1; j < n; j++) {   			 	// check the element to be minimum 
             if (arr[j] < arr[min_idx]) {  
-                min_idx = j;    						// assign the second element as min
+                min_idx = j;    				       // assign the second element as min
             }
         }
-        if (min_idx != i) {  						  //swap the minimum element with the current element
+        if (min_idx != i) {  					      //swap the minimum element with the current element
             temp = arr[i];
-            arr[i] = arr[min_idx];					 //swap the first location with the minimum value in the array
+            arr[i] = arr[min_idx];				    //swap the first location with the minimum value in the array
             arr[min_idx] = temp;
         }
     }
@@ -255,23 +254,23 @@ void insertionSort(unsigned long int arr[], int n){
     int i, prev, current;
 
     for(i = 1; i < n; i++){
-        current = arr[i];                             //comparison starts with second element
+        current = arr[i];                                 //comparison starts with second element
         prev = i - 1;                               
 
         while(prev >= 0 && arr[prev] > current){          //check if current is less than the previous element
-            arr[prev + 1] = arr[prev];                 //shift right
+            arr[prev + 1] = arr[prev];                   //shift right
             prev = prev - 1;
         }
-        arr[prev + 1] = current;                        //retain element at the same index
+        arr[prev + 1] = current;                         //retain element at the same index
     }
 }
 
 
 void mergeSort(unsigned long int arr[], int n, int start, int end){
 	
-    if(start < end){                                         //base case
+    if(start < end){                                           //base case
         int mid = start + (end - start)/2;
-        mergeSort(arr, n, start, mid);                     //left recursion
+        mergeSort(arr, n, start, mid);                        //left recursion
         mergeSort(arr, n, mid + 1, end);                     //right recursion
         merge(arr, n, start, mid, end);                     //merging two sorted sub-arrays
     }
@@ -281,38 +280,39 @@ void merge(unsigned long int arr[], int n, int start, int mid, int end){
 	
     unsigned long int *temp = calloc(n, sizeof(unsigned long int));      //temporary storage for sorted elements
     int l, r, k;
-    l = start;                                        //beginning index of the first sub-array
-    r = mid+1;                                        //beginning index of the second sub-array
+    l = start;                                                          //beginning index of the first sub-array
+    r = mid+1;                                                         //beginning index of the second sub-array
     k = 0;
 
-    while(l <= mid && r <= end){                        //while elements in both lists
+    while(l <= mid && r <= end){                                     //while elements in both lists
         if(arr[l] < arr[r])
             temp[k++] = arr[l++];
         else
             temp[k++] = arr[r++];
     }
-    while(l <= mid)                                   //copy remaining elements of the first list
+    while(l <= mid)                                                //copy remaining elements of the first list
         temp[k++] = arr[l++];
 
-    while(r <= end)                                   //copy remaining elements of the second list
+    while(r <= end)                                               //copy remaining elements of the second list
         temp[k++] = arr[r++];
                           
-    for(l = start, r = 0; l <= end; l++, r++)                 //Transfer all elements to original array
+    for(l = start, r = 0; l <= end; l++, r++)                   //Transfer all elements to original array
         arr[l] = temp[r];
 	free(temp);
 } 
 
 
-void quickSort(unsigned long int array[], int leftmostIndex, int rightmostIndex) 
+void quickSort(unsigned long int arr[], int leftmostIndex, int rightmostIndex) 
 {
   if (leftmostIndex < rightmostIndex)
    {
     // find the pivot element such that
     // elements smaller than pivot are on left of pivot
     // elements greater than pivot are on right of pivot
-    int pivotIndex = partition(array, leftmostIndex, rightmostIndex);
-    quickSort(array, leftmostIndex, pivotIndex);			// recursive call on the left of pivot
-    quickSort(array, pivotIndex + 1, rightmostIndex);			// recursive call on the right of pivot
+	  
+    int pivotIndex = partition(arr, leftmostIndex, rightmostIndex);
+    quickSort(arr, leftmostIndex, pivotIndex);		           	// recursive call on the left of pivot
+    quickSort(arr, pivotIndex + 1, rightmostIndex);			// recursive call on the right of pivot
   }
 }
 
@@ -341,7 +341,7 @@ int partition(unsigned long int arr[], int leftmostIndex, int rightmostIndex){
         if(i >= j){
             return j;
         }
-        swap(&arr[i], &arr[j]);         // swap element at i with element at j
+        swap(&arr[i], &arr[j]);                       // swap element at i with element at j
     }
 	
 }
@@ -373,11 +373,11 @@ int median(unsigned long int arr[], int leftmostIndex, int rightmostIndex) {
 void heapSort(unsigned long int *arr, int n){
 	
 	int i;
-    for (i = n / 2 - 1; i >= 0; i--){ 			//build the binary max heap
+    for (i = n / 2 - 1; i >= 0; i--){ 				//build the binary max heap
         heapify(arr, n, i);
     }
     for (i = n - 1; i >= 0; i--){ 				//sort the max heap
-        int temp = arr[i]; 						//swap the root node and the last leaf node
+        int temp = arr[i]; 				        //swap the root node and the last leaf node
         arr[i] = arr[0];
         arr[0] = temp;
         heapify(arr, i, 0); 					//again heapify the max heap from the root 
@@ -386,7 +386,7 @@ void heapSort(unsigned long int *arr, int n){
  
 void heapify(unsigned long int* arr, int n, int i)		 // heapify the subtree with root i
 {
-    int largest = i; 							//store largest as the root element
+    int largest = i; 					        //store largest as the root element
  
     int left = 2 * i + 1;
     int right  = 2 * i + 2;
@@ -405,6 +405,6 @@ void heapify(unsigned long int* arr, int n, int i)		 // heapify the subtree with
         arr[i] = arr[largest];
         arr[largest] = temp;
  
-        heapify(arr, n, largest); 		// again heapify that side of the heap where the root has gone
+        heapify(arr, n, largest); 		       // again heapify that side of the heap where the root has gone
     }
 }
