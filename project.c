@@ -69,8 +69,9 @@ int main(){
 					getchar();
 			  		printf("\nInvalid. Please try again.");
 					printf("\n\n");
+					printf("\nPress enter to continue...");
 					fflush(stdout);
-					getchar(); 			      //buffer  			
+					getchar(); 			  			
 					break;	
 			}
 			
@@ -191,7 +192,7 @@ void sort(unsigned long int arr[], int n, FILE* output){
 	printf("Time taken for Heap Sort: %f seconds\n", heap_time_taken);
 	print(sorted_arr, n, output);
 
-	printf("\nPress enter key to continue...");
+	printf("\nPress enter to continue...");
     fflush(stdout);
     getchar();
 
